@@ -1,0 +1,43 @@
+@font-face {
+    font-family: "Montserrat";
+    src: url("../fonts/Montserrat-ExtraLight/Montserrat-ExtraLight.ttf") format("truetype");
+    src: url("../fonts/Montserrat-ExtraLight/Montserrat-ExtraLight.ttf") format("truetype"),
+        url("../fonts/Montserrat-ExtraLight/Montserrat-ExtraLight.eot") format("embedded-opentype"),
+        url("../fonts/Montserrat-ExtraLight/Montserrat-ExtraLight.woff") format("woff"),
+        url("../fonts/Montserrat-ExtraLight/Montserrat-ExtraLight.svg") format("svg");
+    font-style: normal;
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: "Montserrat";
+    src: url("../fonts/Montserrat-Light/Montserrat-Light.ttf") format("truetype");
+    src: url("../fonts/Montserrat-Light/Montserrat-Light.ttf") format("truetype"),
+        url("../fonts/Montserrat-Light/Montserrat-Light.eot") format("embedded-opentype"),
+        url("../fonts/Montserrat-Light/Montserrat-Light.woff") format("woff"),
+        url("../fonts/Montserrat-Light/Montserrat-Light.svg") format("svg");
+    font-style: normal;
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: "Montserrat";
+    src: url("../fonts/Montserrat-Regular/Montserrat-Regular.ttf") format("truetype");
+    src: url("../fonts/Montserrat-Regular/Montserrat-Regular.ttf") format("truetype"),
+        url("../fonts/Montserrat-Regular/Montserrat-Regular.eot") format("embedded-opentype"),
+        url("../fonts/Montserrat-Regular/Montserrat-Regular.woff") format("woff"),
+        url("../fonts/Montserrat-Regular/Montserrat-Regular.svg") format("svg");
+    font-style: normal;
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Montserrat";
+    src: url("../fonts/Montserrat-SemiBold/Montserrat-SemiBold.ttf") format("truetype");
+    src: url("../fonts/Montserrat-SemiBold/Montserrat-SemiBold.ttf") format("truetype"),
+        url("../fonts/Montserrat-SemiBold/Montserrat-SemiBold.eot") format("embedded-opentype"),
+        url("../fonts/Montserrat-SemiBold/Montserrat-SemiBold.woff") format("woff"),
+        url("../fonts/Montserrat-SemiBold/Montserrat-SemiBold.svg") format("svg");
+    font-style: normal;
+    font-weight: 600;
+}

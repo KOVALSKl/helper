@@ -1,0 +1,19 @@
+@import "./fonts.scss";
+
+$main-color: #14a433;
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+}
+
+.active-text {
+    color: $main-color;
+}
