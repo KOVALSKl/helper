@@ -5,29 +5,42 @@ import App from './App';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import SymptomsPage from './pages/SymptomsPage/SymptomsPage';
-import DiseasesPage from './pages/DiseasesPage/DiseasesPage';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
+import HomePage from './pages/HomePage/HomePage';
+import DiagnosisPage from './pages/DiagnosesPage/DiagnosesPage';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-  },
-  {
-    path: '/symptoms',
-    element: <SymptomsPage />,
     errorElement: <ErrorPage />,
+    children: [
+      {
+        path: '/',
+        element: <HomePage />
+      },
+      {
+        path: '/symptoms',
+        element: <SymptomsPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: '/diagnoses',
+        element: <DiagnosisPage />,
+        errorElement: <ErrorPage />,
+      }
+    ]
   },
-  {
-    path: '/diseases',
-    element: <DiseasesPage />
-  }
 ])
 
 ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 ).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );

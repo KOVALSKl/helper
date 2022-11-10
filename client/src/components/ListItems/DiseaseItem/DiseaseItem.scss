@@ -1,0 +1,136 @@
+@import "../../../../public/styles/style.scss";
+
+.item {
+    & {
+        width: 350px;
+
+        position: relative;
+        z-index: 9999;
+    }
+
+    & .content {
+        height: 95px;
+
+        overflow: hidden;
+
+        padding: 16px 12px;
+
+        position: relative;
+        z-index: inherit;
+
+        border: 0.5px solid #000000;
+        box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 20px;
+        background: #ffffff;
+
+        transition: height 300ms ease-in-out, overflow 300ms ease-in-out;
+    }
+
+    & .show-more-rect {
+        width: 100%;
+        background-color: $main-color;
+
+        position: absolute;
+        z-index: 0;
+        bottom: -30px;
+
+        border: 0.5px solid #000000;
+        border-radius: 20px;
+
+        height: 70px;
+
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+
+        color: #ffffff;
+
+        padding-bottom: 5px;
+
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    &-header {
+        & {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        & .title {
+            &,
+            & > h2 {
+                font-family: "Montserrat";
+                font-weight: 200;
+
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 7px;
+            }
+
+            & > h2 {
+                font-size: 1.2em;
+
+                display: block;
+            }
+
+            & > span {
+                font-size: 16px;
+                margin-bottom: -3px;
+
+                font-weight: 600;
+            }
+        }
+    }
+
+    & .main-content {
+        & {
+            font-family: "Montserrat";
+
+            padding-top: 5px;
+        }
+
+        &__header {
+            font-weight: 700;
+            font-size: 18px;
+
+            color: rgba(20, 164, 51, 0.63);
+        }
+
+        & .description {
+            overflow-wrap: break-word;
+
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+
+            font-size: 16px;
+
+            font-weight: 200;
+
+            // transition: all 400ms ease-in-out;
+        }
+
+        & .tips {
+            margin-top: 15px;
+        }
+    }
+}
+
+.content.active {
+    & {
+        overflow: visible;
+        overflow-y: scroll;
+
+        height: 300px;
+    }
+
+    & .description {
+        text-overflow: clip;
+        overflow: visible;
+
+        overflow-y: scroll;
+        white-space: normal;
+    }
+}

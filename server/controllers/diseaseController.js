@@ -1,16 +1,27 @@
-const { Diseases } = require("../models/models");
+const { Diseases, DiseasesSymptoms } = require("../models/models");
 const ApiError = require('../errors/ApiError')
 
 class DiseaseController {
 
     async create(req, res, next) {
         try {
-            const { name, description, tips } = req.body;
+            const { name, description, tips, symptoms } = req.body;
+
             const disease = await Diseases.create({
                 name,
                 description,
                 tips,
             })
+
+            let parsedSymtpoms = JSON.parse(symptoms);
+
+            for (let i = 0; i < parsedSymtpoms.length; i++) {
+                await DiseasesSymptoms.create({
+                    diseaseId: disease.id,
+                    symptomId: parsedSymtpoms[i]
+                })
+            }
+
             return res.json(disease)
         } catch (e) {
             next(ApiError.internal('Unexpected Error'));

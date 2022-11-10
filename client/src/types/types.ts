@@ -21,11 +21,15 @@ export class Disease {
     public id: number;
     public name: string;
     public description: string;
+    public tips: string;
+    public probability: number | undefined;
 
-    constructor(id?: number, name?: string, description?: string) {
-        this.id = id ?? -1;
-        this.name = name ?? '';
-        this.description = description ?? 'Not found'
+    constructor(disease: Disease) {
+        this.id = disease.id;
+        this.name = disease.name;
+        this.description = disease.description;
+        this.tips = disease.tips;
+        this.probability = disease.probability;
     }
 }
 
@@ -41,4 +45,10 @@ export class ApiError extends Error {
         this.data = err.data;
     }
 
+}
+
+export type HookQueryType<ObjectType> = {
+    data: ObjectType;
+    isLoading: boolean;
+    error: Error | null;
 }

@@ -3,21 +3,26 @@ import { Link } from 'react-router-dom'
 import { useEffect, useMemo, useState } from 'react';
 import { ApiError, Symptom } from '../../types/types'
 
-import axios from 'axios';
 import SearchSelect from '../../components/SearchSelect/SearchSelect';
 import List from '../../components/List/List';
+import { useGetSymptomsQuery } from '../../redux/api/symptomsApi';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
+import { PulseLoader } from 'react-spinners';
+import { useAppSelector } from '../../redux/hooks';
 
 function SymptomsPage() {
+
+    const { data, isLoading, error } = useGetSymptomsQuery();
 
     const [symptoms, setSymptoms] = useState<Symptom[]>([]);
     const [listVisible, setListVisible] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string>('');
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_HOST_LINK}/symptoms`)
-            .then(({ data }: { data: Symptom[] }) => setSymptoms(data.map(item => new Symptom(item.id, item.name))))
-            .catch(({ response }: { response: ApiError }) => console.log(response))
-    }, [])
+        if (data) {
+            setSymptoms(data.map((item) => new Symptom(item.id, item.name)))
+        }
+    }, [data])
 
     const sortedSymptoms = useMemo(() => {
         return (searchValue !== '')
@@ -33,20 +38,21 @@ function SymptomsPage() {
                 listVisible={listVisible}
                 changeListVisible={setListVisible}
                 setSearchValue={setSearchValue} />
-            {(!listVisible)
-                ? null
-                : <List list={sortedSymptoms} />
+            {
+                (!listVisible)
+                    ? null
+                    : <List list={sortedSymptoms} />
             }
             <div className='movement-links'>
-                <Link className='move-on-lnk' to='/result'>
-                    вперед
-                </Link>
                 <Link className='back-lnk' to='/'>
                     <img
                         src={require('../../assets/left-arrow.svg').default}
                         alt='go to home page button'
                     />
                     <span>назад</span>
+                </Link>
+                <Link className='move-on-lnk' to='/diagnoses'>
+                    вперед
                 </Link>
             </div>
         </div>
