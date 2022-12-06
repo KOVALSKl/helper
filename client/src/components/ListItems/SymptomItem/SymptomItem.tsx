@@ -4,7 +4,12 @@ import { addSymptom, deleteSymptom } from '../../../redux/slices/selectedSymtpom
 import { Symptom } from '../../../types/types';
 import './SymptomItem.scss'
 
-function SymptomItem({ item }: { item: Symptom }) {
+type SymptomItemProps = {
+    item: Symptom,
+    classNames?: string[],
+}
+
+function SymptomItem({ item, classNames = [] }: SymptomItemProps) {
 
     const selectedSymtpoms = useAppSelector(state => state.selectedSymtpoms.value);
 
@@ -15,7 +20,7 @@ function SymptomItem({ item }: { item: Symptom }) {
     const dispatch = useAppDispatch();
 
     return (
-        <li className='symptom-list-item'>
+        <li className={['list-item', ...classNames].join(' ')}>
             <label
                 htmlFor={`item__checkbox-${item.id}`}
                 style={{ color: (!isSelected()) ? '#000000' : '#14a433' }}>

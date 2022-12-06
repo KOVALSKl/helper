@@ -1,59 +1,31 @@
 import './SymptomsPage.scss'
-import { Link } from 'react-router-dom'
-import { useEffect, useMemo, useState } from 'react';
-import { ApiError, Symptom } from '../../types/types'
-
-import SearchSelect from '../../components/SearchSelect/SearchSelect';
-import List from '../../components/List/List';
-import { useGetSymptomsQuery } from '../../redux/api/symptomsApi';
-import { skipToken } from '@reduxjs/toolkit/dist/query';
-import { PulseLoader } from 'react-spinners';
+import { Link, useNavigate } from 'react-router-dom'
 import { useAppSelector } from '../../redux/hooks';
+import SearchSymptomsList from '../../components/SearchSymptomsList/SearchSymptomsList';
+import Back from '../../components/Buttons/Back/Back';
+import MoveOn from '../../components/Buttons/MoveOn/MoveOn';
 
 function SymptomsPage() {
 
-    const { data, isLoading, error } = useGetSymptomsQuery();
+    const navigate = useNavigate();
 
-    const [symptoms, setSymptoms] = useState<Symptom[]>([]);
-    const [listVisible, setListVisible] = useState<boolean>(false);
-    const [searchValue, setSearchValue] = useState<string>('');
-
-    useEffect(() => {
-        if (data) {
-            setSymptoms(data.map((item) => new Symptom(item.id, item.name)))
-        }
-    }, [data])
-
-    const sortedSymptoms = useMemo(() => {
-        return (searchValue !== '')
-            ? symptoms.filter((item) => item.name.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()))
-            : symptoms
-    }, [searchValue, symptoms])
+    const selectedSymptoms = useAppSelector(state => state.selectedSymtpoms.value);
 
     return (
         <div className='symptoms-page page'>
             <span className='tip'>Выбери подходящие симптомы <br /> (просто кликни на нужные)</span>
-            <SearchSelect
-                symptomsLength={symptoms.length}
-                listVisible={listVisible}
-                changeListVisible={setListVisible}
-                setSearchValue={setSearchValue} />
-            {
-                (!listVisible)
-                    ? null
-                    : <List list={sortedSymptoms} />
-            }
+            <SearchSymptomsList />
             <div className='movement-links'>
-                <Link className='back-lnk' to='/'>
-                    <img
-                        src={require('../../assets/left-arrow.svg').default}
-                        alt='go to home page button'
-                    />
-                    <span>назад</span>
-                </Link>
-                <Link className='move-on-lnk' to='/diagnoses'>
-                    вперед
-                </Link>
+                <Back to='/' />
+                <MoveOn
+                    classNames={[
+                        (selectedSymptoms.length < 3)
+                            ? 'disabled'
+                            : 'active'
+                    ]}
+                    to='/diagnoses'
+                    disabled={(selectedSymptoms.length < 3)}
+                />
             </div>
         </div>
     );

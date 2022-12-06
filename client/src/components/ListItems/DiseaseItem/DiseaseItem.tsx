@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Disease } from '../../../types/types';
+import { Disease, DiseaseTipType } from '../../../types/types';
+import TipsList from '../../TipsList/TipsList';
 import './DiseaseItem.scss'
 
 
@@ -8,57 +9,64 @@ function DiseaseItem({ item }: { item: Disease }) {
     const [active, setActive] = useState<boolean>(false);
 
     function getItemColor(): string {
-        if (item.probability) {
-            return (item.probability > 80)
+        if (item.distance) {
+            return (item.distance > 12)
                 ? '#CE813A'
-                : (item.probability < 80 && item.probability > 60)
+                : (item.distance <= 12 && item.distance > 0)
                     ? '#C7C135'
                     : '#0FA958'
         }
         return '';
     }
 
-    //TODO: accordion to read disease info
+    useEffect(() => {
+        if (!active) {
+            let element = document.getElementById(`item-content-${item.id}`);
+            if (element && element.scrollTop !== 0) {
+                element.scrollTop = element.offsetTop;
+            }
+        }
+    }, [active])
 
     return (
         <li className='item'>
-            <div className={['content', (active) ? 'active' : ''].join(' ')}>
+            <div
+                className={['content', (active) ? 'active' : ''].join(' ')}
+                id={`item-content-${item.id}`}
+            >
                 <div className="item-header">
                     <div className="title">
                         <h2>{item.name}</h2>
-                        <span style={{ color: getItemColor() }}>{item.probability}%</span>
+                        <span style={{ color: getItemColor() }}>{item.distance}</span>
                     </div>
                 </div>
                 <div className='main-content'>
-                    <div className="description">
+                    <div
+                        className={['description', (active) ? 'collapse' : ''].join(' ')}
+                        id={`item-description-${item.id}`}
+                    >
                         <h3 className='main-content__header'>
-                            Description
+                            Описание
                         </h3>
-                        nvsjdnvjkdnfvsjdfnvsjkdf
-                        fvsdjfknvjsdfnvjkndfjnvjdf
-                        dfjnvjskndfjkvnjkdfnjksdfjnvkjsd
-                        fvjndfkjnvskjdnfvjsndfjkvnsjkdnfv
-                        sdfnvjndjfknvjskdfnjvks
-                        fjnvsjkdfnjknfkjgsljfnvkdfn
-                        sdfvnsdfjnsfnjnfjnjnjsfjn
-                        sdfnvjndjfknvjskdfnjvks
-                        fjnvsjkdfnjknfkjgsljfnvkdfn
-                        sdfvnsdfjnsfnjnfjnjnjsfjn
+                        {item.description}
                     </div>
                     <div className="tips">
                         <h3 className='main-content__header'>
-                            Tips
+                            Советы
+                            <TipsList
+                                list={item.tips}
+                                tipType={DiseaseTipType.TOSHOW}
+                            />
                         </h3>
-                        {item.tips}
                     </div>
                 </div>
             </div>
             <button className='show-more-rect' onClick={(e) => setActive(!active)}>
                 {(active)
-                    ? 'close'
-                    : 'show more'}
+                    ? 'свернуть'
+                    : 'показать'}
             </button>
-        </li>
+        </li >
     );
 }
 

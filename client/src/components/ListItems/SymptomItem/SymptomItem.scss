@@ -1,4 +1,4 @@
-.symptom-list-item {
+.list-item {
     & {
         font-family: "Montserrat";
         font-weight: 200;
@@ -13,13 +13,17 @@
         width: 100%;
         position: relative;
         z-index: 9999;
+
+        padding: 15px;
     }
 
     & .checkbox {
         & {
             position: absolute;
-            top: 3px;
-            right: 0;
+            top: 15px;
+            right: 15px;
+
+            margin-left: 7px;
         }
 
         & > input[type="checkbox"] {

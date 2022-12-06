@@ -3,24 +3,28 @@ const ApiError = require('../errors/ApiError')
 
 class DiagnoseController {
 
-    static calculateLength(vector) {
-        return Number(Math.sqrt(vector.reduce((prev, current) => prev + current ** 2, 0)).toFixed(5));
-    }
+    static calculateEuclidianDistance(selectedSymptoms, diseaseSymptoms) {
 
-    static calculateProbabiltiy(selectedSymptoms, diseaseSymptoms) {
-        let matchingSymptoms = 0;
-        selectedSymptoms.map((item) => {
-            if (diseaseSymptoms.includes(item))
-                matchingSymptoms++;
-        })
-        console.log(matchingSymptoms, diseaseSymptoms.length);
-        return Math.floor((matchingSymptoms / diseaseSymptoms.length) * 100)
+        let userSymptoms = [...selectedSymptoms];
+        let distance = 0;
+
+        if (selectedSymptoms.length < diseaseSymptoms.length) {
+            userSymptoms.concat(new Array(diseaseSymptoms.length - selectedSymptoms.length).fill(0));
+        }
+
+        for (let i = 0; i < userSymptoms.length; i++) {
+            distance += (userSymptoms[i] - (diseaseSymptoms[i] ?? 0)) ** 2;
+        }
+
+        distance = Math.sqrt(distance)
+
+        return Number(distance.toFixed(3));
     }
 
     async make(req, res, next) {
         try {
 
-            const symptoms = JSON.parse(req.body.symptoms);
+            const symptoms = JSON.parse(req.body.symptoms).sort((a, b) => a - b);
 
 
             const diseases = await Diseases.findAll();
@@ -34,13 +38,12 @@ class DiagnoseController {
                     name: disease.name,
                     description: disease.description,
                     tips: disease.tips,
-                    probability: DiagnoseController.calculateProbabiltiy(symptoms, currentDiseaseSymptoms.map((item) => item['symptomId'])),
+                    distance: DiagnoseController.calculateEuclidianDistance(symptoms,
+                        currentDiseaseSymptoms.map((item) => item['symptomId'])),
                 }
             })
 
-            console.log()
-
-            return res.json(diseasesSymptoms.sort((a, b) => b.probability - a.probability).slice(0, 3));
+            return res.json(diseasesSymptoms.sort((a, b) => a.distance - b.distance).slice(0, 3));
 
         } catch (e) {
             next(ApiError.internal('Unexpected Error'));

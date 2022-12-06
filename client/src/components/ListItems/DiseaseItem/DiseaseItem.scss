@@ -2,13 +2,13 @@
 
 .item {
     & {
-        width: 350px;
-
         position: relative;
         z-index: 9999;
     }
 
     & .content {
+        width: 350px;
+
         height: 95px;
 
         overflow: hidden;
@@ -22,6 +22,8 @@
         box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);
         border-radius: 20px;
         background: #ffffff;
+
+        scroll-behavior: smooth;
 
         transition: height 300ms ease-in-out, overflow 300ms ease-in-out;
     }
@@ -99,17 +101,26 @@
         }
 
         & .description {
-            overflow-wrap: break-word;
+            font-size: 16px;
+            font-weight: 200;
 
+            overflow-wrap: break-word;
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
+        }
 
-            font-size: 16px;
+        & .description:not(.collapse) {
+            animation-name: dots;
+            animation-duration: 550ms;
+        }
 
-            font-weight: 200;
+        & .description.collapse {
+            text-overflow: clip;
+            overflow: visible;
 
-            // transition: all 400ms ease-in-out;
+            overflow-y: scroll;
+            white-space: normal;
         }
 
         & .tips {
@@ -123,10 +134,12 @@
         overflow: visible;
         overflow-y: scroll;
 
-        height: 300px;
+        height: 400px;
     }
+}
 
-    & .description {
+@keyframes dots {
+    from {
         text-overflow: clip;
         overflow: visible;
 

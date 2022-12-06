@@ -34,6 +34,20 @@ const Symptoms = sequelize.define('symptoms', {
     },
 })
 
+const SymptomsGroup = sequelize.define('symptoms_group', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+    },
+    name: {
+        type: DataTypes.STRING,
+        unique: true,
+        allowNull: false,
+    },
+})
+
 const DiseasesSymptoms = sequelize.define('diseases_symptoms', {
     id: {
         type: DataTypes.INTEGER,
@@ -43,11 +57,16 @@ const DiseasesSymptoms = sequelize.define('diseases_symptoms', {
     },
 })
 
+
+Symptoms.belongsTo(SymptomsGroup);
+SymptomsGroup.hasMany(Symptoms);
+
 Diseases.belongsToMany(Symptoms, { through: DiseasesSymptoms });
 Symptoms.belongsToMany(Diseases, { through: DiseasesSymptoms });
 
 module.exports = {
     Diseases,
     Symptoms,
-    DiseasesSymptoms
+    DiseasesSymptoms,
+    SymptomsGroup
 }

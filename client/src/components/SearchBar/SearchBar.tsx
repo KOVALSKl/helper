@@ -1,13 +1,13 @@
-import './SearchSelect.scss'
+import './SearchBar.scss'
 
-type SearchSelectProps = {
+type SearchBarProps = {
     symptomsLength: number
     listVisible: boolean;
     changeListVisible: (value: boolean) => void;
     setSearchValue: (value: string) => void;
 }
 
-function SearchSelect({ symptomsLength, listVisible, changeListVisible, setSearchValue }: SearchSelectProps) {
+function SearchBar({ symptomsLength, listVisible, changeListVisible, setSearchValue }: SearchBarProps) {
 
     return (
         <div className='search-select'>
@@ -15,7 +15,10 @@ function SearchSelect({ symptomsLength, listVisible, changeListVisible, setSearc
             <input
                 className={['search-select__input', (listVisible) ? 'active' : ''].join(' ')}
                 placeholder='поиск симптомов'
-                onChange={(e) => setSearchValue(e.target.value)}
+                onChange={(e) => {
+                    if (!listVisible) changeListVisible(!listVisible);
+                    setSearchValue(e.target.value)
+                }}
             />
             <button
                 className='search-select__button'
@@ -31,4 +34,4 @@ function SearchSelect({ symptomsLength, listVisible, changeListVisible, setSearc
     );
 }
 
-export default SearchSelect;
+export default SearchBar;

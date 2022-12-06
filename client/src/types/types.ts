@@ -2,6 +2,16 @@ export type ApiErrorData = {
     message: string;
 }
 
+export type sendRequestProps<ObjectType> = {
+    url: string;
+    sendingData: ObjectType;
+}
+
+export enum DiseaseTipType {
+    TOEDIT,
+    TOSHOW
+}
+
 export interface DiseaseSymptomsSample {
     id: number;
     name: string;
@@ -10,10 +20,22 @@ export interface DiseaseSymptomsSample {
 export class Symptom {
     public id: number;
     public name: string;
+    public symptomsGroupId: number;
 
-    constructor(id: number, name: string) {
-        this.id = id ?? -1;
-        this.name = name ?? '';
+    constructor(symptom: Symptom) {
+        this.id = symptom.id;
+        this.name = symptom.name;
+        this.symptomsGroupId = symptom.symptomsGroupId;
+    }
+}
+
+export class SymptomsGroup {
+    public id: number;
+    public name: string;
+
+    constructor(group: SymptomsGroup) {
+        this.id = group.id;
+        this.name = group.name;
     }
 }
 
@@ -21,15 +43,23 @@ export class Disease {
     public id: number;
     public name: string;
     public description: string;
-    public tips: string;
-    public probability: number | undefined;
+    public tips: DiseaseTip[];
+    public distance: number | undefined;
 
     constructor(disease: Disease) {
         this.id = disease.id;
         this.name = disease.name;
         this.description = disease.description;
         this.tips = disease.tips;
-        this.probability = disease.probability;
+        this.distance = disease.distance;
+    }
+}
+
+export class DiseaseTip {
+    public value: string;
+
+    constructor(value?: string) {
+        this.value = value ?? '';
     }
 }
 
@@ -52,3 +82,16 @@ export type HookQueryType<ObjectType> = {
     isLoading: boolean;
     error: Error | null;
 }
+
+
+//PREVIEWS
+
+export type SymptomPreview = Pick<Symptom, 'name' | 'symptomsGroupId'>;
+
+export type DiseasePreview = {
+    diseaseInfo: Pick<Disease, 'name' | 'description'>
+    tips: string;
+    symptoms: string;
+}
+
+export type GroupPreview = Omit<SymptomsGroup, 'id'>;

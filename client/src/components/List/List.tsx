@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { PulseLoader } from 'react-spinners';
+
+import { memo } from 'react';
 import { Disease, Symptom } from '../../types/types';
 import DiseaseItem from '../ListItems/DiseaseItem/DiseaseItem';
 import SymptomItem from '../ListItems/SymptomItem/SymptomItem';
@@ -17,7 +17,10 @@ function List<ObjectType,>({ list }: ListProps<ObjectType>) {
                 (list.length > 0)
                     ? list.map((item, index) => {
                         if (item instanceof Symptom)
-                            return (<SymptomItem item={item} key={item.id} />)
+                            return (<SymptomItem
+                                item={item}
+                                key={item.id}
+                            />)
 
                         else if (item instanceof Disease)
                             return (<DiseaseItem item={item} key={item.id} />)
@@ -30,4 +33,4 @@ function List<ObjectType,>({ list }: ListProps<ObjectType>) {
     );
 }
 
-export default List;
+export default memo(List);

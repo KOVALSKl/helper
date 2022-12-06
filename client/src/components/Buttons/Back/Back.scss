@@ -1,0 +1,35 @@
+.back-lnk {
+    & {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+
+        width: 89px;
+
+        border: none;
+        background: none;
+
+        font-family: Montserrat;
+        font-weight: 300;
+        font-size: 24px;
+        text-align: center;
+
+        text-decoration: none;
+
+        transition: color ease-in-out 300ms;
+    }
+
+    & > img {
+        margin-bottom: -5px;
+    }
+
+    &:link,
+    &:visited {
+        color: #000000;
+    }
+
+    &:active {
+        color: rgba(240, 0, 0, 0.85);
+    }
+}

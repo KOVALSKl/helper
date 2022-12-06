@@ -5,15 +5,15 @@ class DiseaseController {
 
     async create(req, res, next) {
         try {
-            const { name, description, tips, symptoms } = req.body;
+            const { diseaseInfo, tips, symptoms } = req.body;
 
             const disease = await Diseases.create({
-                name,
-                description,
+                name: diseaseInfo.name,
+                description: diseaseInfo.description,
                 tips,
             })
 
-            let parsedSymtpoms = JSON.parse(symptoms);
+            let parsedSymtpoms = JSON.parse(symptoms).sort((a, b) => a - b);
 
             for (let i = 0; i < parsedSymtpoms.length; i++) {
                 await DiseasesSymptoms.create({

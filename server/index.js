@@ -19,9 +19,9 @@ const start = async () => {
     try {
         await sequelize.authenticate()
         await sequelize.sync()
-        app.listen(PORT, () => console.log(`successfully started on PORT:${PORT}`))
+        app.listen(PORT, () => console.log(`Успешно подклюено, порт:${PORT}`))
     } catch (e) {
-        console.log('Unexpected error')
+        console.log('Не удалось подключиться к серверу')
     }
 }
 

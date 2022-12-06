@@ -33,11 +33,15 @@
         & {
             padding-top: 36px;
             padding-bottom: 66px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            gap: 50px;
         }
 
         & .page-title {
-            margin-bottom: 28px;
-
             font-family: "Montserrat";
             font-weight: 600;
             font-size: 28px;
@@ -51,5 +55,37 @@
         & {
             gap: 54px;
         }
+    }
+
+    & .back-lnk,
+    & .back-lnk:visited {
+        border: none;
+        background: none;
+
+        color: #000;
+
+        font-family: "Montserrat";
+        font-weight: 300;
+        font-size: 24px;
+        text-align: center;
+
+        text-decoration: none;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+
+        width: 89px;
+
+        transition: color ease-in-out 300ms;
+    }
+
+    & .back-lnk:active {
+        color: rgba(255, 0, 0, 0.7);
+    }
+
+    & .back-lnk > img {
+        margin-bottom: -5px;
     }
 }

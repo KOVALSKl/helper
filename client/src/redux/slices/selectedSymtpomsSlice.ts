@@ -22,10 +22,12 @@ export const selectedSymtpomsState = createSlice({
             const sids = [...state.value];
             sids.splice(index, 1)
             state.value = sids
+        },
+        emptySymptoms: (state) => {
+            state.value = [];
         }
-
     }
 })
 
-export const { addSymptom, deleteSymptom } = selectedSymtpomsState.actions;
+export const { addSymptom, deleteSymptom, emptySymptoms } = selectedSymtpomsState.actions;
 export default selectedSymtpomsState.reducer;

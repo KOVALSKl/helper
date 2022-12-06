@@ -1,0 +1,23 @@
+@import "../../../public/styles/style.scss";
+
+.tips-list {
+    & {
+        display: flex;
+        flex-direction: column;
+
+        gap: 10px;
+
+        padding-top: 10px;
+        padding-left: 3px;
+    }
+
+    & > li {
+        display: block;
+
+        font-family: Montserrat;
+        font-size: 16px;
+        font-weight: 300;
+
+        color: #000;
+    }
+}

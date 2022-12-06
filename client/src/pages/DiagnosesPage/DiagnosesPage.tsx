@@ -4,6 +4,7 @@ import { useGetDiagnoseQuery } from '../../hooks/useGetDiagnoseQuery';
 import { useEffect, useState } from 'react';
 import List from '../../components/List/List';
 import { Disease } from '../../types/types';
+import { Link } from 'react-router-dom';
 
 function DiagnosisPage() {
 
@@ -21,11 +22,18 @@ function DiagnosisPage() {
             {(isLoading || diseasesList.length === 0)
                 ? <div className='loader-screen'>
                     <SyncLoader color='#14a433' />
-                    <span>Diagnose</span>
+                    <span>диагностируем</span>
                 </div>
                 : <div className='main'>
-                    <h2 className='page-title'>Probable Diagnosis</h2>
+                    <h2 className='page-title'>Вероятные диагнозы</h2>
                     <List list={diseasesList} />
+                    <Link className='back-lnk' to='/symptoms'>
+                        <img
+                            src={require('../../assets/left-arrow.svg').default}
+                            alt='go to home page button'
+                        />
+                        <span>назад</span>
+                    </Link>
                 </div>}
         </div>
     );
