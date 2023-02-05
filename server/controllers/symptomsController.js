@@ -10,9 +10,45 @@ class SymptomsController {
                 name,
                 symptomsGroupId,
             })
-            res.json(symptom)
+            return res.json(symptom)
         } catch (e) {
-            next(ApiError.badRequest(''))
+            next(ApiError.badRequest('Unexpected Error'))
+        }
+    }
+
+    async update(req, res, next) {
+        try {
+            const { name, symptomsGroupId, id } = req.body;
+            const symptom = await Symptoms.findByPk(id);
+            if (!symptom) next(ApiError.badRequest('Symptom with this id does not exist'))
+
+            symptom.set({
+                name,
+                symptomsGroupId
+            });
+            symptom.save();
+
+            return res.json(symptom);
+        } catch (e) {
+            next(ApiError.internal('Unexpected Error'))
+        }
+    }
+
+    async delete(req, res, next) {
+        try {
+            const { id } = req.params;
+            const symptom = await Symptoms.findByPk(id);
+
+            if (!symptom) next(ApiError.badRequest('Symptom with this id does not exist'))
+
+            symptom.destroy();
+
+            return res.json({
+                status: 200,
+                statusText: "Delete successfully"
+            })
+        } catch (e) {
+            next(ApiError.internal('Unexpected error'))
         }
     }
 
@@ -21,7 +57,7 @@ class SymptomsController {
             const symptoms = await Symptoms.findAll();
             return res.json(symptoms);
         } catch (e) {
-            next(ApiError.internal('Something went wrong on server please try again later'));
+            next(ApiError.internal('Unexpected error'))
         }
     }
 }

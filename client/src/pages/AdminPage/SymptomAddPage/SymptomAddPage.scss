@@ -2,7 +2,16 @@
 
 .symptom-add-page {
     & {
+        height: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+
         padding: 40px 0;
+
+        position: relative;
     }
 
     & .Toastify {
@@ -12,15 +21,73 @@
     }
 
     & .page-title {
-        color: $main-color;
+        & {
+            color: $main-color;
+            position: relative;
+        }
+
+        & .close-editing {
+            & {
+                border: none;
+                background: transparent;
+
+                position: absolute;
+
+                top: -3px;
+                right: -45px;
+            }
+
+            &:active {
+                opacity: 0.5;
+            }
+
+            & > img {
+                width: 40px;
+            }
+        }
     }
 
     h3 {
         color: $h3-color;
     }
 
-    &,
-    & .symptom-form {
+    & .back-btn {
+        &,
+        &:visited,
+        &:link {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+
+            border: 0.5px solid #000;
+            border-radius: 100%;
+
+            padding: 18px 12px;
+
+            display: flex;
+            align-items: center;
+
+            transition: background 250ms ease-in-out;
+        }
+
+        & > img {
+            width: 35px;
+            transition: filter 250ms ease-in-out;
+        }
+
+        &:active {
+            & {
+                background-color: rgba($main-color, 1);
+            }
+
+            & > img {
+                filter: invert(1);
+            }
+        }
+    }
+
+    & .symptom-form,
+    & .content-block {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -146,6 +213,75 @@
             font-size: 16px;
 
             padding: 7px 12px;
+        }
+    }
+
+    & .symptoms-list {
+        & {
+            width: 360px;
+            height: 310px;
+
+            overflow: hidden;
+            overflow-y: scroll;
+
+            list-style-type: none;
+            padding: 0;
+
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+
+            border: 0.5px solid #000;
+            border-radius: 20px;
+
+            padding: 20px;
+
+            background-color: #ffffff;
+
+            box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);
+        }
+
+        & > li.symptom {
+            & {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            & .symptom-info {
+                & {
+                    font-family: Montserrat;
+                    font-size: 18px;
+
+                    overflow: hidden;
+                    overflow-x: scroll;
+
+                    width: 220px;
+                }
+            }
+
+            & .action-buttons {
+                & {
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                }
+
+                &__btn {
+                    color: #ffffff;
+                    font-family: Montserrat;
+
+                    border: none;
+                    background: transparent;
+
+                    transition: opacity 150ms ease-in-out;
+                }
+
+                &__btn:disabled,
+                &__btn:active {
+                    opacity: 0.5;
+                }
+            }
         }
     }
 }

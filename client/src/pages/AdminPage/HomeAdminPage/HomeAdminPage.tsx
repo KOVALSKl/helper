@@ -8,9 +8,9 @@ function HomeAdminPage() {
             <h1>helper admin</h1>
 
             <div className="action-links">
-                <Link to='/admin/disease'>add disease</Link>
-                <Link to='/admin/symptom'>add symptom</Link>
-                <Link to='/admin/group'>add group</Link>
+                <Link to='/admin/disease'>добавить заболевание</Link>
+                <Link to='/admin/symptom'>добавить симптом</Link>
+                <Link to='/admin/group'>добавить группу симптомов</Link>
             </div>
         </div>
     );

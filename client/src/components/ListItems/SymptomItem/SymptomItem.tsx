@@ -25,22 +25,22 @@ function SymptomItem({ item, classNames = [] }: SymptomItemProps) {
                 htmlFor={`item__checkbox-${item.id}`}
                 style={{ color: (!isSelected()) ? '#000000' : '#14a433' }}>
                 {item.name}
-                <div className='checkbox'>
-                    <input
-                        type='checkbox'
-                        id={`item__checkbox-${item.id}`}
-                        className='select-item-checkbox'
-                        checked={isSelected()}
-                        onChange={() => {
-                            (!isSelected())
-                                ? dispatch(addSymptom(item.id))
-                                : dispatch(deleteSymptom(item.id))
-                        }}
-                    />
-                    <label htmlFor={`item__checkbox-${item.id}`}>
-                    </label>
-                </div>
             </label>
+            <div className='checkbox'>
+                <input
+                    type='checkbox'
+                    id={`item__checkbox-${item.id}`}
+                    className='checkbox'
+                    checked={isSelected()}
+                    onChange={() => {
+                        (!isSelected())
+                            ? dispatch(addSymptom(item.id))
+                            : dispatch(deleteSymptom(item.id))
+                    }}
+                />
+                <label htmlFor={`item__checkbox-${item.id}`}>
+                </label>
+            </div>
         </li >
     );
 }

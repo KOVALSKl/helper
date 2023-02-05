@@ -5,6 +5,41 @@
         padding: 40px 0;
     }
 
+    & .back-btn {
+        &,
+        &:visited,
+        &:link {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+
+            border: 0.5px solid #000;
+            border-radius: 100%;
+
+            padding: 18px 12px;
+
+            display: flex;
+            align-items: center;
+
+            transition: background 250ms ease-in-out;
+        }
+
+        & > img {
+            width: 35px;
+            transition: filter 250ms ease-in-out;
+        }
+
+        &:active {
+            & {
+                background-color: rgba($main-color, 1);
+            }
+
+            & > img {
+                filter: invert(1);
+            }
+        }
+    }
+
     & .Toastify {
         position: absolute;
         top: 0;

@@ -2,9 +2,17 @@ export type ApiErrorData = {
     message: string;
 }
 
-export type sendRequestProps<ObjectType> = {
+export type SendRequestProps<ObjectType> = {
     url: string;
     sendingData: ObjectType;
+    requestType: RequestType;
+}
+
+export enum RequestType {
+    GET,
+    POST,
+    PUT,
+    DELETE
 }
 
 export enum DiseaseTipType {
@@ -85,6 +93,8 @@ export type HookQueryType<ObjectType> = {
 
 
 //PREVIEWS
+
+export type ApiResponsePreview = Pick<ApiError, 'status' | 'statusText'>
 
 export type SymptomPreview = Pick<Symptom, 'name' | 'symptomsGroupId'>;
 

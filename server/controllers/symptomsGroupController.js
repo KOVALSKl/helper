@@ -25,6 +25,45 @@ class SymptomsGroupController {
         }
     }
 
+    async update(req, res, next) {
+        try {
+            const { name, groupID } = req.body;
+            const group = await SymptomsGroup.findByPk(groupID);
+
+            if (!group) next(ApiError.badRequest("Group with this id does not exist"))
+
+            group.set({
+                name
+            })
+
+            group.save();
+
+            return res.json(group);
+
+        } catch (e) {
+            next(ApiError.internal('Unexpected error'))
+        }
+    }
+
+    async delete(req, res, next) {
+        try {
+            const { id } = req.params;
+            const group = await SymptomsGroup.findByPk(id);
+
+            if (!group) next(ApiError.badRequest("Group with this id does not exist"))
+
+            group.destroy();
+
+            return res.json({
+                status: 200,
+                statusText: "Delete successfully"
+            })
+
+        } catch (e) {
+            next(ApiError.internal('Unexpected error'))
+        }
+    }
+
     async one(req, res, next) {
         try {
             const { id } = req.body;

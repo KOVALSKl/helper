@@ -10,9 +10,9 @@ function DiseaseItem({ item }: { item: Disease }) {
 
     function getItemColor(): string {
         if (item.distance) {
-            return (item.distance > 12)
+            return (item.distance > 80)
                 ? '#CE813A'
-                : (item.distance <= 12 && item.distance > 0)
+                : (item.distance <= 80 && item.distance > 60)
                     ? '#C7C135'
                     : '#0FA958'
         }
@@ -37,7 +37,7 @@ function DiseaseItem({ item }: { item: Disease }) {
                 <div className="item-header">
                     <div className="title">
                         <h2>{item.name}</h2>
-                        <span style={{ color: getItemColor() }}>{item.distance}</span>
+                        <span style={{ color: getItemColor() }}>{item.distance}%</span>
                     </div>
                 </div>
                 <div className='main-content'>

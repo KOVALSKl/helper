@@ -28,6 +28,58 @@ class DiseaseController {
         }
     }
 
+    async update(req, res, next) {
+        try {
+            const { diseaseInfo, tips, symptoms, diseaseID } = req.body;
+            const parsedSymtpoms = JSON.parse(symptoms).sort((a, b) => a - b);
+
+            const disease = await Diseases.findByPk(diseaseID);
+
+            if (!disease) next(ApiError.badRequest(`There is no disease with ID:${diseaseID}`))
+
+            disease.set({
+                name: diseaseInfo.info,
+                description: diseaseInfo.description,
+                tips,
+            })
+
+            DiseasesSymptoms.destroy({ where: { diseaseId: diseaseID } });
+
+            for (let i = 0; i < parsedSymtpoms.length; i++) {
+                await DiseasesSymptoms.create({
+                    diseaseId: disease.id,
+                    symptomId: parsedSymtpoms[i]
+                })
+            }
+
+            disease.save();
+
+            return res.json(disease);
+        } catch (e) {
+            next(ApiError.internal('Unexpected Error'))
+        }
+    }
+
+    async delete(req, res, next) {
+        try {
+            const { id } = req.params;
+            const disease = await Diseases.findByPk(diseaseID);
+
+            if (!disease) next(ApiError.badRequest(`There is no disease with ID:${diseaseID}`))
+
+            disease.destroy();
+            DiseasesSymptoms.destroy({ where: { diseaseId: id } });
+
+            return res.json({
+                status: 200,
+                statusText: "Delete successfully"
+            })
+
+        } catch (e) {
+            next(ApiError.internal('Unexpected Error'))
+        }
+    }
+
     async all(req, res, next) {
         try {
             const diseases = await Diseases.findAll();

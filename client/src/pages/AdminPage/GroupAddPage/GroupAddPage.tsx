@@ -5,7 +5,7 @@ import { toast, ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { sendRequest } from '../../../api/api';
-import { GroupPreview } from '../../../types/types';
+import { GroupPreview, RequestType } from '../../../types/types';
 import './GroupAddPage.scss'
 
 function GroupAddPage() {
@@ -21,7 +21,8 @@ function GroupAddPage() {
                 url: `${process.env.REACT_APP_HOST_LINK}/groups`,
                 sendingData: {
                     name: groupName,
-                }
+                },
+                requestType: RequestType.POST,
             })
                 .then((res: AxiosResponse) => {
                     toast.success('Группа успешно добавлена', {
@@ -98,7 +99,9 @@ function GroupAddPage() {
                     отправить
                 </button>
             </form>
-            <Link to={'/admin'}>go to admin</Link>
+            <Link to={'/admin'} className='back-btn'>
+                <img src={require('../../../assets/left-arrow.svg').default} />
+            </Link>
         </div>
 
     );

@@ -4,7 +4,7 @@ import { SyncLoader } from 'react-spinners';
 import List from '../../../components/List/List';
 import { useGetSymptomsQuery } from '../../../redux/api/symptomsApi';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import { DiseasePreview, DiseaseTip, DiseaseTipType, Symptom } from '../../../types/types';
+import { DiseasePreview, DiseaseTip, DiseaseTipType, RequestType, Symptom } from '../../../types/types';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './DiseaseAddPage.scss'
@@ -50,7 +50,8 @@ function DiseaseAddPage() {
                     },
                     tips: tips.map((item) => item.value).join('|'),
                     symptoms: JSON.stringify(selectedSymptoms)
-                }
+                },
+                requestType: RequestType.POST
             }).then((res: AxiosResponse) => {
                 toast.success('Болезнь успешно добавлена', {
                     position: "top-right",
@@ -170,7 +171,7 @@ function DiseaseAddPage() {
                         отправить
                     </button>
                 </form>
-                <Link to={'/admin'}>go to admin</Link>
+                <Link to={'/admin'}>на главную</Link>
             </div>
 
     );
