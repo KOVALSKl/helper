@@ -14,6 +14,9 @@ import DiseaseAddPage from './pages/AdminPage/DiseaseAddPage/DiseaseAddPage';
 import SymptomAddPage from './pages/AdminPage/SymptomAddPage/SymptomAddPage';
 import HomeAdminPage from './pages/AdminPage/HomeAdminPage/HomeAdminPage';
 import GroupAddPage from './pages/AdminPage/GroupAddPage/GroupAddPage';
+import { ThemeProvider } from '@emotion/react';
+
+import { helperTheme } from './assets/themes/helperTheme';
 
 const router = createBrowserRouter([
   {
@@ -69,7 +72,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 ).render(
-  <Provider store={store}>
-    <RouterProvider router={router} />
-  </Provider>
+  <ThemeProvider theme={helperTheme}>
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  </ThemeProvider>
 );

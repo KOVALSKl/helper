@@ -6,6 +6,8 @@ export type SendRequestProps<ObjectType> = {
     url: string;
     sendingData: ObjectType;
     requestType: RequestType;
+    params?: any,
+    headers?: any,
 }
 
 export enum RequestType {
