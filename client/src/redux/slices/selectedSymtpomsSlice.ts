@@ -14,6 +14,9 @@ export const selectedSymtpomsState = createSlice({
     name: 'selectedSymptoms',
     initialState,
     reducers: {
+        updateSymptoms: (state, action: PayloadAction<number[]>) => {
+            state.value = action.payload;
+        },
         addSymptom: (state, action: PayloadAction<number>) => {
             state.value.push(action.payload);
         },
@@ -29,5 +32,5 @@ export const selectedSymtpomsState = createSlice({
     }
 })
 
-export const { addSymptom, deleteSymptom, emptySymptoms } = selectedSymtpomsState.actions;
+export const { addSymptom, deleteSymptom, emptySymptoms, updateSymptoms } = selectedSymtpomsState.actions;
 export default selectedSymtpomsState.reducer;

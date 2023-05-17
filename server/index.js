@@ -15,14 +15,26 @@ app.use(ErrorHandlingMiddleware)
 
 const PORT = process.env.PORT || 5000;
 
-const start = async () => {
-    try {
-        await sequelize.authenticate()
-        await sequelize.sync()
-        app.listen(PORT, () => console.log(`Успешно подклюено, порт:${PORT}`))
-    } catch (e) {
-        console.log('Не удалось подключиться к серверу')
-    }
+function connectToDB() {
+    return new Promise((resolve, reject) => {
+        sequelize.authenticate()
+            .then(resolve)
+            .catch(reject)
+        sequelize.sync()
+            .then(resolve)
+            .catch(reject)
+    })
+}
+
+const start = () => {
+    connectToDB()
+        .then(() => {
+            app.listen(PORT, () => console.info(`Успешно подклюено, порт:${PORT}`))
+        })
+        .catch(() => {
+            console.error('Не удалось подключиться к серверу')
+            setTimeout(start, 2000)
+        })
 }
 
 start()

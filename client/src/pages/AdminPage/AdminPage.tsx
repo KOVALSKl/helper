@@ -1,11 +1,14 @@
 import { Link, Outlet } from "react-router-dom";
+import {SnackbarProvider} from "notistack";
 import './AdminPage.scss'
 
 function AdminPage() {
     return (
-        <div className="admin-page">
-            <Outlet />
-        </div>
+        <SnackbarProvider>
+            <div className="admin-page">
+                <Outlet />
+            </div>
+        </SnackbarProvider>
     )
 }
 

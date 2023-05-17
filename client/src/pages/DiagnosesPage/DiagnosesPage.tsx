@@ -1,41 +1,59 @@
 import './DiagnosesPage.scss'
 import { SyncLoader } from 'react-spinners';
 import { useGetDiagnoseQuery } from '../../hooks/useGetDiagnoseQuery';
-import { useEffect, useState } from 'react';
-import List from '../../components/List/List';
+import React, { useEffect, useState } from 'react';
 import { Disease } from '../../types/types';
-import { Link } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
+import {Box} from "@mui/system";
+import {
+    Button,
+    Typography
+} from "@mui/material";
+import DiseaseTabs from "../../components/DiseaseTabs/DiseaseTabs";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 function DiagnosisPage() {
 
-    const { data, isLoading, error } = useGetDiagnoseQuery();
-
+    const { data, isLoading } = useGetDiagnoseQuery();
     const [diseasesList, setDiseasesList] = useState<Disease[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (data)
-            setDiseasesList(data.map(item => new Disease(item)))
+            setDiseasesList(data.map((item:Disease) => item as Disease))
     }, [data])
 
     return (
-        <div className='probable-diagnoses-page'>
+        <Box sx={{display:'flex', width:'100%', justifyContent:'center'}}>
             {(isLoading || diseasesList.length === 0)
-                ? <div className='loader-screen'>
+                ? <Box sx={{
+                    height:'100%',
+                    display:"flex",
+                    flexDirection:'column',
+                    alignItems:'center',
+                    justifyContent:'center',
+                    gap: 2,
+                }}>
                     <SyncLoader color='#14a433' />
                     <span>диагностируем</span>
-                </div>
-                : <div className='main'>
-                    <h2 className='page-title'>Вероятные диагнозы</h2>
-                    <List list={diseasesList} />
-                    <Link className='back-lnk' to='/symptoms'>
-                        <img
-                            src={require('../../assets/left-arrow.svg').default}
-                            alt='go to home page button'
-                        />
-                        <span>назад</span>
-                    </Link>
-                </div>}
-        </div>
+                </Box>
+                :<Box sx={{display:'flex', width:'100%', flexDirection:'column', gap: 4, padding:4}}>
+                        <Typography variant='h4' fontWeight={600} color="primary">Вероятные диагнозы</Typography>
+                        <Box>
+                            <DiseaseTabs diseases={diseasesList}/>
+                        </Box>
+                        <Button
+                            color="secondary"
+                            variant="text"
+                            size="medium"
+                            sx={{borderRadius:'20px'}}
+                            startIcon={<ArrowBackIcon/>}
+                            onClick={() => navigate('/symptoms')}
+                        >
+                            вернуться к симптомам
+                        </Button>
+                </Box>}
+        </Box>
     );
 }
 

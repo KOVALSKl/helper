@@ -7,36 +7,31 @@ class SymptomsGroupController {
         try {
             const { name } = req.body;
 
-            const item = await SymptomsGroup.findOne({
-                where: {
-                    name
-                }
-            })
-
-            if (item) next(ApiError.badRequest('Group with this name alredy exist'))
+            const item = await SymptomsGroup.findOne({where: {name}})
+            if (item) next(ApiError.badRequest('Group with this name already exist'))
 
             const group = await SymptomsGroup.create({
                 name
             })
 
-            res.json(group)
+            return res.json(group)
         } catch (e) {
-            next(ApiError.internal('Something went wrong on server, plese try again later'))
+            next(ApiError.internal('Something went wrong on server, please try again later'))
         }
     }
 
     async update(req, res, next) {
         try {
-            const { name, groupID } = req.body;
-            const group = await SymptomsGroup.findByPk(groupID);
+            const { name, id } = req.body;
+            const group = await SymptomsGroup.findByPk(id);
 
             if (!group) next(ApiError.badRequest("Group with this id does not exist"))
 
-            group.set({
+            await group.set({
                 name
             })
 
-            group.save();
+            await group.save();
 
             return res.json(group);
 
@@ -52,7 +47,7 @@ class SymptomsGroupController {
 
             if (!group) next(ApiError.badRequest("Group with this id does not exist"))
 
-            group.destroy();
+            await group.destroy();
 
             return res.json({
                 status: 200,
@@ -66,13 +61,13 @@ class SymptomsGroupController {
 
     async one(req, res, next) {
         try {
-            const { id } = req.body;
+            const { id } = req.params;
 
             if (!id) next(ApiError.badRequest("Group with this id does not exist"))
 
-            const group = SymptomsGroup.findByPk(id);
+            const group = await SymptomsGroup.findByPk(id);
 
-            res.json(group);
+            return res.json(group);
 
         } catch (e) {
             next(ApiError.internal('Something went wrong on server, plese try again later'))

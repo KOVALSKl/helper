@@ -10,3 +10,4 @@ router.delete('/:id', diseaseController.delete)
 
 
 module.exports = router
+

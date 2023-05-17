@@ -22,47 +22,38 @@ export enum DiseaseTipType {
     TOSHOW
 }
 
-export interface DiseaseSymptomsSample {
-    id: number;
-    name: string;
+export interface GroupedItems<T> {
+    group: Group,
+    items: T[],
 }
 
-export class Symptom {
-    public id: number;
-    public name: string;
-    public symptomsGroupId: number;
-
-    constructor(symptom: Symptom) {
-        this.id = symptom.id;
-        this.name = symptom.name;
-        this.symptomsGroupId = symptom.symptomsGroupId;
-    }
+export interface Symptom {
+    id: number,
+    name: string,
+    symptomsGroupId: number,
 }
 
-export class SymptomsGroup {
-    public id: number;
-    public name: string;
-
-    constructor(group: SymptomsGroup) {
-        this.id = group.id;
-        this.name = group.name;
-    }
+export interface Disease {
+    id: number,
+    group: number,
+    name: string,
+    description: string,
+    tips: Group[],
+    reasons: Group[],
+    symptomsDescription: string,
+    distance?: number,
 }
 
-export class Disease {
-    public id: number;
-    public name: string;
-    public description: string;
-    public tips: DiseaseTip[];
-    public distance: number | undefined;
+export interface Doctor {
+    id: number,
+    name: string,
+    description: string,
 
-    constructor(disease: Disease) {
-        this.id = disease.id;
-        this.name = disease.name;
-        this.description = disease.description;
-        this.tips = disease.tips;
-        this.distance = disease.distance;
-    }
+    diseasesGroupId: number,
+}
+export interface Group {
+    id: number,
+    name: string,
 }
 
 export class DiseaseTip {
@@ -93,12 +84,23 @@ export type HookQueryType<ObjectType> = {
     error: Error | null;
 }
 
+// API
+export interface ApiResponse<T> {
+    item: T,
+    group: Group,
+}
+
+export interface DiseaseApiResponse {
+    item: Disease,
+    group: Group,
+    symptoms: Symptom[],
+}
 
 //PREVIEWS
 
 export type ApiResponsePreview = Pick<ApiError, 'status' | 'statusText'>
 
-export type SymptomPreview = Pick<Symptom, 'name' | 'symptomsGroupId'>;
+export type SymptomPreview = Omit<Symptom, 'id'>;
 
 export type DiseasePreview = {
     diseaseInfo: Pick<Disease, 'name' | 'description'>
@@ -106,4 +108,3 @@ export type DiseasePreview = {
     symptoms: string;
 }
 
-export type GroupPreview = Omit<SymptomsGroup, 'id'>;

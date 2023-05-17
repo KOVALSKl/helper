@@ -1,5 +1,6 @@
 const express = require('express');
 const symptomsGroupController = require('../controllers/symptomsGroupController');
+const groupRouter = require('./symptomsGroupRouter');
 
 const router = express.Router();
 

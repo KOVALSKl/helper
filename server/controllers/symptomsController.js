@@ -1,13 +1,14 @@
-const { Symptoms } = require("../models/models");
+const { Symptoms, SymptomsGroup} = require("../models/models");
 const ApiError = require('../errors/ApiError')
 
 class SymptomsController {
 
     async create(req, res, next) {
         try {
-            const { name, symptomsGroupId } = req.body;
+            const { name, description, symptomsGroupId } = req.body;
             const symptom = await Symptoms.create({
                 name,
+                description,
                 symptomsGroupId,
             })
             return res.json(symptom)
@@ -18,15 +19,16 @@ class SymptomsController {
 
     async update(req, res, next) {
         try {
-            const { name, symptomsGroupId, id } = req.body;
+            const { name, description, symptomsGroupId, id } = req.body;
             const symptom = await Symptoms.findByPk(id);
             if (!symptom) next(ApiError.badRequest('Symptom with this id does not exist'))
 
             symptom.set({
                 name,
+                description,
                 symptomsGroupId
             });
-            symptom.save();
+            await symptom.save();
 
             return res.json(symptom);
         } catch (e) {
@@ -41,7 +43,7 @@ class SymptomsController {
 
             if (!symptom) next(ApiError.badRequest('Symptom with this id does not exist'))
 
-            symptom.destroy();
+            await symptom.destroy();
 
             return res.json({
                 status: 200,
@@ -54,7 +56,11 @@ class SymptomsController {
 
     async all(req, res, next) {
         try {
-            const symptoms = await Symptoms.findAll();
+            let symptoms = await Symptoms.findAll();
+            symptoms = await Promise.all(symptoms.map(async (item) => {
+                let symptomsGroup = await SymptomsGroup.findByPk(item.symptomsGroupId);
+                return {item, group: symptomsGroup}
+            }))
             return res.json(symptoms);
         } catch (e) {
             next(ApiError.internal('Unexpected error'))

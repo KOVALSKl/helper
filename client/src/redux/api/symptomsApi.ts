@@ -1,6 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { url } from 'inspector'
-import { ApiResponsePreview, Disease, DiseasePreview, GroupPreview, Symptom, SymptomPreview, SymptomsGroup } from '../../types/types'
+import {
+    ApiResponse,
+    ApiResponsePreview,
+    Group,
+    Symptom,
+    SymptomPreview,
+} from '../../types/types'
 
 
 export const symptomsApi = createApi({
@@ -8,11 +13,11 @@ export const symptomsApi = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: `${process.env.REACT_APP_HOST_LINK}` }),
     tagTypes: ['SYMPTOM', 'GROUP', 'DISEASE'],
     endpoints: (builder) => ({
-        getSymptoms: builder.query<Symptom[], void>({
+        getSymptoms: builder.query<ApiResponse<Symptom>[], void>({
             query: () => '/symptoms',
             providesTags: ['SYMPTOM']
         }),
-        addSymptom: builder.mutation<Symptom, SymptomPreview>({
+        addSymptom: builder.mutation<ApiResponse<Symptom>, SymptomPreview>({
             query: (symptom) => ({
                 url: '/symptoms',
                 method: 'POST',
@@ -20,7 +25,7 @@ export const symptomsApi = createApi({
             }),
             invalidatesTags: ['SYMPTOM']
         }),
-        updateSymptom: builder.mutation<Symptom, Symptom>({
+        updateSymptom: builder.mutation<ApiResponse<Symptom>, Symptom>({
             query: (symptom) => ({
                 url: '/symptoms',
                 method: 'PUT',
@@ -35,24 +40,24 @@ export const symptomsApi = createApi({
             }),
             invalidatesTags: ['SYMPTOM']
         }),
-        getSymptomsGroups: builder.query<SymptomsGroup[], void>({
-            query: () => '/groups',
+        getSymptomsGroups: builder.query<Group[], void>({
+            query: () => '/groups/symptoms',
             providesTags: ['GROUP']
         }),
-        getSymptomsGroup: builder.query<SymptomsGroup, number>({
-            query: (id) => `/groups/${id}`
+        getSymptomsGroup: builder.query<Group, number>({
+            query: (id) => `/groups/symptoms/${id}`
         }),
-        addSymptomsGroup: builder.mutation<SymptomsGroup, GroupPreview>({
+        addSymptomsGroup: builder.mutation<Group, Omit<Group, 'id'>>({
             query: (group) => ({
-                url: '/groups',
+                url: '/groups/symptoms',
                 method: 'POST',
-                body: JSON.stringify(group),
+                body: group,
             }),
             invalidatesTags: ['GROUP']
         }),
-        updateSymptomsGroup: builder.mutation<SymptomsGroup, SymptomsGroup>({
+        updateSymptomsGroup: builder.mutation<Group, Group>({
             query: (group) => ({
-                url: '/groups',
+                url: '/groups/symptoms',
                 method: 'PUT',
                 body: group,
             }),
@@ -60,41 +65,11 @@ export const symptomsApi = createApi({
         }),
         deleteSymptomsGroup: builder.mutation<ApiResponsePreview, number>({
             query: (id) => ({
-                url: `/groups/${id}`,
+                url: `/groups/symptoms/${id}`,
                 method: 'DELETE'
             }),
             invalidatesTags: ['GROUP']
         }),
-        getDiseases: builder.query<Disease[], void>({
-            query: () => '/diseases',
-            providesTags: ['DISEASE']
-        }),
-        getDisease: builder.query<Disease, number>({
-            query: (id) => `/diseases/${id}`
-        }),
-        addDisease: builder.mutation<Disease, DiseasePreview>({
-            query: (disease) => ({
-                url: '/diseases',
-                method: 'POST',
-                body: JSON.stringify(disease),
-            }),
-            invalidatesTags: ['DISEASE']
-        }),
-        updateDisease: builder.mutation<Disease, Disease>({
-            query: (disease) => ({
-                url: '/diseases',
-                method: 'PUT',
-                body: JSON.stringify(disease),
-            }),
-            invalidatesTags: ['DISEASE']
-        }),
-        deleteDisease: builder.mutation<ApiResponsePreview, number>({
-            query: (id) => ({
-                url: `/diseases/${id}`,
-                method: 'DELETE',
-            }),
-            invalidatesTags: ['DISEASE']
-        })
     })
 })
 
@@ -110,9 +85,4 @@ export const {
     useUpdateSymptomsGroupMutation,
     useDeleteSymptomsGroupMutation,
 
-    useGetDiseaseQuery,
-    useGetDiseasesQuery,
-    useAddDiseaseMutation,
-    useUpdateDiseaseMutation,
-    useDeleteDiseaseMutation
 } = symptomsApi

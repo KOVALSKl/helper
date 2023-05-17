@@ -1,10 +1,7 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react'
-import DiseaseTipItem from '../components/ListItems/DiseaseTipItem/DiseaseTipItem';
-import { useGetSymptomsQuery } from '../redux/api/symptomsApi';
 import { useAppSelector } from '../redux/hooks';
-import { Disease, DiseaseTip, HookQueryType } from "../types/types"
+import {Disease, DiseaseTip, Group, HookQueryType} from "../types/types"
 
 export function useGetDiagnoseQuery(): HookQueryType<Disease[]> {
 
@@ -23,7 +20,8 @@ export function useGetDiagnoseQuery(): HookQueryType<Disease[]> {
                     setData(resp.data.map((item: any) => {
                         return {
                             ...item,
-                            tips: item.tips.split('|').map((tip: string) => new DiseaseTip(tip))
+                            tips: item.tips.split('|').map((tip: string) => JSON.parse(tip)),
+                            reasons: item.reasons.split('|').map((tip:string) => JSON.parse(tip))
                         }
                     }))
                     setIsLoading(false);

@@ -53,6 +53,8 @@ class DiagnoseController {
                     name: disease.name,
                     description: disease.description,
                     tips: disease.tips,
+                    reasons: disease.reasons,
+                    symptomsDescription: disease.symptoms_description,
                     distance: Math.round(distance * 100),
                 }
             })
